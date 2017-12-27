@@ -3,6 +3,8 @@ import HTTP
 
 /// Here we have a controller that helps facilitate
 /// creating typical REST patterns
+import Debugging
+
 final class HelloController: ResourceRepresentable {
     let view: ViewRenderer
     init(_ view: ViewRenderer) {
@@ -11,6 +13,10 @@ final class HelloController: ResourceRepresentable {
 
     /// GET /hello
     func index(_ req: Request) throws -> ResponseRepresentable {
+
+		let user = User(name: "test")
+		try! user.save()
+
         return try view.make("hello", [
             "name": "World"
         ], for: req)

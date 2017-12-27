@@ -7,7 +7,8 @@ extension Config {
         // (add your own types here)
         Node.fuzzy = [JSON.self, Node.self]
 
-		preparations.append(User.self)
+		preparations.append(Employee.self)
+        preparations.append(Time.self)
         try setupProviders()
     }
 

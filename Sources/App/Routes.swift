@@ -20,6 +20,8 @@ final class Routes: RouteCollection {
         builder.get("info") { req in
             return req.description
         }
+        try builder.resource("employees", EmployeeController.self)
+        try builder.resource("times", TimeController.self)
 
     }
 }

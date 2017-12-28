@@ -7,8 +7,10 @@
 
 import Vapor
 import HTTP
+import Foundation
 
 final class EmployeeController: ResourceRepresentable {
+
 
     func index(_ req: Request) throws -> ResponseRepresentable {
         return try Employee.all().makeJSON()
@@ -100,3 +102,24 @@ extension Request {
 ///
 /// This will allow it to be passed by type.
 extension EmployeeController: EmptyInitializable { }
+
+extension EmployeeController {
+	func getTimes(_ req: Request) throws -> ResponseRepresentable {
+		guard let employeeId = req.parameters["id"]?.int else {
+			throw Abort.badRequest
+		}
+		var items = try Time.all().filter({ (item) -> Bool in
+			return item.employeeId.int == employeeId
+		})
+		if let month = req.parameters["month"]?.int {
+			let calendar = Calendar.current
+			let year = req.parameters["year"]?.int ?? calendar.component(.year, from: Date())
+			items = items.filter({ (item) -> Bool in
+				return calendar.component(.month, from: item.date) == month &&
+				calendar.component(.year, from: item.date) == year
+			})
+		}
+		return try items.makeJSON()
+	}
+}
+

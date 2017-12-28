@@ -83,9 +83,10 @@ extension Time: JSONConvertible {
         guard let employee = try Employee.find(employeeId) else {
             throw Abort.badRequest
         }
+		let date : Date? = try json.get(Time.Keys.date)
         self.init(
             employee: employee,
-            date: try json.get(Time.Keys.date),
+			date: date ?? Date(),
             note: try json.get(Time.Keys.note)
         )
     }

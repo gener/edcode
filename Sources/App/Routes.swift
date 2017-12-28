@@ -21,7 +21,14 @@ final class Routes: RouteCollection {
             return req.description
         }
         try builder.resource("employees", EmployeeController.self)
+		let employeeController = EmployeeController()
+
+		builder.get("employees/:id/times", handler: employeeController.getTimes)
+		builder.get("employees/:id/times/:month", handler: employeeController.getTimes)
+		builder.get("employees/:id/times/:month/:year", handler: employeeController.getTimes)
+
         try builder.resource("times", TimeController.self)
+
 
     }
 }
